@@ -8,6 +8,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import vertx.asyncresponse.Server;
+import vertx.asyncresponse.ServiceProcessor;
 
 @RunWith(VertxUnitRunner.class)
 public class MyFirstVerticleTest {
@@ -17,8 +19,9 @@ public class MyFirstVerticleTest {
     @Before
     public void setUp(TestContext context) {
         vertx = Vertx.vertx();
-        vertx.deployVerticle(SimpleRest.class.getName(),
-                context.asyncAssertSuccess());
+        //vertx.deployVerticle(Main.class.getName(),     context.asyncAssertSuccess());
+        vertx.deployVerticle(Server.class.getName(), context.asyncAssertSuccess());
+        vertx.deployVerticle(ServiceProcessor.class.getName(), context.asyncAssertSuccess());
     }
 
     @After
@@ -30,10 +33,11 @@ public class MyFirstVerticleTest {
     public void testMyApplication(TestContext context) {
         final Async async = context.async();
 
-        vertx.createHttpClient().getNow(8080, "localhost", "/",
+        vertx.createHttpClient().getNow(8080, "localhost", "/products/",
                 response -> {
                     response.handler(body -> {
-                        context.assertTrue(body.toString().contains("Hello"));
+                        //System.out.println(body.toJsonObject().getJsonArray("id").contains("prod3568"));
+                       context.assertTrue(body.toJsonObject().getJsonArray("id").contains("prod3568"));
                         async.complete();
                     });
                 });

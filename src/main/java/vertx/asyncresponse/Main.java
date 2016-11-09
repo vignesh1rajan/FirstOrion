@@ -1,7 +1,7 @@
 package vertx.asyncresponse;
 
 import io.vertx.core.AbstractVerticle;
-import vertx.util.*;
+import vertx.util.Runner;
 
 /**
  * Created by nexis on 11/6/2016.
@@ -10,7 +10,7 @@ public class Main extends AbstractVerticle {
 
 
     public static void main(String[] args) {
-        Runner.runExample(Main.class);
+       Runner.runExample(Main.class);
     }
 
     @Override
