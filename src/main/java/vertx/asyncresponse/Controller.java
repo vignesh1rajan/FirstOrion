@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 public class Controller {
 
     @GET
-    @Path("/products/{productID}")
+    @Path("/products/{personID}")
     @Produces({MediaType.APPLICATION_JSON})
     public void get(
 
@@ -28,7 +28,7 @@ public class Controller {
             // Inject the Vertx instance
             @Context Vertx vertx,
 
-            @PathParam("productID") String productID
+            @PathParam("personID") String productID
     ) {
 
         if (productID == null) {
@@ -56,7 +56,7 @@ public class Controller {
     }
 
     @PUT
-    @Path("/products/{productID}")
+    @Path("/products/{personID}")
     @Produces({MediaType.APPLICATION_JSON})
     public void put(
 
@@ -66,17 +66,17 @@ public class Controller {
             // Inject the Vertx instance
             @Context Vertx vertx,
 
-            @PathParam("productID") String productID,  String product
+            @PathParam("personID") String personID,  String product
     ) {
 
-        if (productID == null || product == null) {
+        if (personID == null || product == null) {
             asyncResponse.resume(Response.status(Response.Status.BAD_REQUEST).build());
             return;
         }
 
-        JsonObject productJson;
+        JsonObject personJson;
         try {
-            productJson = new JsonObject(product);
+            personJson = new JsonObject(product);
         } catch (Exception e) {
             asyncResponse.resume(Response.status(Response.Status.BAD_REQUEST).build());
             return;
@@ -85,8 +85,8 @@ public class Controller {
         // Send an add message to the backend
         vertx.eventBus().<Boolean>send("backend", new JsonObject()
                 .put("op", "add")
-                .put("id", productID)
-                .put("product", productJson), msg -> {
+                .put("id", personID)
+                .put("person", personJson), msg -> {
 
             // When we get the response we resume the Jax-RS async response
             if (msg.succeeded()) {

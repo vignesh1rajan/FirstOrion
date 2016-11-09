@@ -18,9 +18,9 @@ public class ServiceProcessor extends AbstractVerticle {
     public ServiceProcessor() {
 
         // Setup initial data
-        addProduct(new JsonObject().put("id", "prod3568").put("name", "Egg Whisk").put("price", 3.99).put("weight", 150));
-        addProduct(new JsonObject().put("id", "prod7340").put("name", "Tea Cosy").put("price", 5.99).put("weight", 100));
-        addProduct(new JsonObject().put("id", "prod8643").put("name", "Spatula").put("price", 1.00).put("weight", 80));
+        addProduct(new JsonObject().put("id", "phone123").put("name", "Dr. Strange").put("address", "Volcano").put("status", "unprocessed"));
+        addProduct(new JsonObject().put("id", "phone222").put("name", "Iron man").put("address", "Stark Industries").put("status", "unprocessed"));
+        addProduct(new JsonObject().put("id", "phone333").put("name", "Monty Python").put("address", "Wonka land").put("status", "unprocessed"));
     }
 
     @Override
@@ -39,7 +39,7 @@ public class ServiceProcessor extends AbstractVerticle {
                 }
                 case "add": {
                     String productID = json.getString("id");
-                    JsonObject product = json.getJsonObject("product");
+                    JsonObject product = json.getJsonObject("person");
                     product.put("id", productID);
                     msg.reply(addProduct(product));
                     break;
@@ -58,7 +58,10 @@ public class ServiceProcessor extends AbstractVerticle {
     }
 
     private boolean addProduct(JsonObject product) {
-        if (product.containsKey("name") || product.containsKey("price") || product.containsKey("weight")) {
+        if (product.containsKey("name") || product.containsKey("address") || product.containsKey("status")) {
+            if (product.getString("status").equalsIgnoreCase("unprocessed")){
+                product.put("status","processed");
+            }
             products.put(product.getString("id"), product);
             return true;
         } else {
