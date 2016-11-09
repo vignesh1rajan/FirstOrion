@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 public class Controller {
 
     @GET
-    @Path("/products/{personID}")
+    @Path("/persons/{personID}")
     @Produces({MediaType.APPLICATION_JSON})
     public void get(
 
@@ -56,7 +56,7 @@ public class Controller {
     }
 
     @PUT
-    @Path("/products/{personID}")
+    @Path("/persons/{personID}")
     @Produces({MediaType.APPLICATION_JSON})
     public void put(
 
@@ -102,7 +102,7 @@ public class Controller {
     }
 
     @GET
-    @Path("/products")
+    @Path("/persons")
     @Produces({MediaType.APPLICATION_JSON})
     public void list(
 
