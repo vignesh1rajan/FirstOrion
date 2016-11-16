@@ -11,7 +11,7 @@ import vertx.bo.Persons;
 import java.util.ArrayList;
 
 import static com.jayway.restassured.RestAssured.given;
-
+import static org.hamcrest.Matchers.*;
 
 /**
  * Created by vrajan on 11/8/2016.
@@ -76,8 +76,8 @@ public class ApiTest {
 
          given().
                 log().all().
-                 accept(ContentType.JSON).contentType(ContentType.JSON).
-                 body(p, ObjectMapperType.JACKSON_2).
+                accept(ContentType.JSON).contentType(ContentType.JSON).
+                body(p, ObjectMapperType.JACKSON_2).
          when().
                 put("/" +p.getPersonId() ).
 
@@ -88,13 +88,15 @@ public class ApiTest {
 
     @Test(dependsOnMethods = "addPerson")
     public void verifyAddPerson(){
-        given()
-                .log().all().accept(ContentType.JSON).contentType(ContentType.JSON).
-        when()
-                .get("/" + p.getPersonId()).
-        then()
-                .log().all().
-                statusCode(200);
+        given().
+              log().all().
+              accept(ContentType.JSON).contentType(ContentType.JSON).
+        when().
+              get("/" + p.getPersonId()).
+
+        then().
+               log().all().
+               statusCode(200).body("status",equalTo("processed"));
 
     }
 
