@@ -1,6 +1,7 @@
 package vertx;
 
 import com.jayway.restassured.RestAssured;
+import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.internal.mapper.ObjectMapperType;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -42,7 +43,7 @@ public class ApiTest {
 
         ArrayList<String > jsonArray =
             given().
-                    log().all().
+                    log().all().contentType(ContentType.JSON).
             when().
                     get("/").
             then().
@@ -51,6 +52,15 @@ public class ApiTest {
             extract().
                     path("name");
 
+        nameList.forEach(name -> {
+            try{
+                Assert.assertTrue(jsonArray.contains(name));
+            }catch (AssertionError ex){
+                System.out.println("Name not found " + name);
+            }
+        });
+
+        /*
         jsonArray.forEach(s -> {
             try {
                 Assert.assertTrue(nameList.contains(s));
@@ -58,19 +68,20 @@ public class ApiTest {
                 System.out.println( "Name not found " + s);
                 throw ex;
             }
-        });
+        });*/
     }
 
     @Test(dependsOnMethods = "getAll" )//
     public void addPerson(){
 
-         given()
-                .log().all()
-                 .body(p, ObjectMapperType.JACKSON_2)
-         .when().
-                put("/" +p.getPersonId() )
+         given().
+                log().all().
+                 accept(ContentType.JSON).contentType(ContentType.JSON).
+                 body(p, ObjectMapperType.JACKSON_2).
+         when().
+                put("/" +p.getPersonId() ).
 
-         .then().
+         then().
                 log().all().
                 statusCode(200);
     }
@@ -78,8 +89,8 @@ public class ApiTest {
     @Test(dependsOnMethods = "addPerson")
     public void verifyAddPerson(){
         given()
-                .log().all()
-        .when()
+                .log().all().accept(ContentType.JSON).contentType(ContentType.JSON).
+        when()
                 .get("/" + p.getPersonId()).
         then()
                 .log().all().
