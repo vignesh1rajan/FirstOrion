@@ -1,4 +1,4 @@
-.idea/
-.vertx/
 *.iml
 target/
+/.idea/
+/.vertx/

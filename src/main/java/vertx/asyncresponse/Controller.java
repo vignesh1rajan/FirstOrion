@@ -28,10 +28,10 @@ public class Controller {
             // Inject the Vertx instance
             @Context Vertx vertx,
 
-            @PathParam("personID") String productID
+            @PathParam("personID") String personId
     ) {
 
-        if (productID == null) {
+        if (personId == null) {
             asyncResponse.resume(Response.status(Response.Status.BAD_REQUEST).build());
             return;
         }
@@ -39,7 +39,7 @@ public class Controller {
         // Send a get message to the backend
         vertx.eventBus().<JsonObject>send("backend", new JsonObject()
                 .put("op", "get")
-                .put("id", productID), msg -> {
+                .put("id", personId), msg -> {
 
             // When we get the response we resume the Jax-RS async response
             if (msg.succeeded()) {

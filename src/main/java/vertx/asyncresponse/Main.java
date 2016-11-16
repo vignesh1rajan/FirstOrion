@@ -1,6 +1,7 @@
 package vertx.asyncresponse;
 
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Future;
 import vertx.util.Runner;
 
 /**
@@ -14,7 +15,7 @@ public class Main extends AbstractVerticle {
     }
 
     @Override
-    public void start() throws Exception {
+    public void start(Future<Void> future) throws Exception {
         vertx.deployVerticle(Server.class.getName());
         vertx.deployVerticle(ServiceProcessor.class.getName());
     }

@@ -1,22 +1,33 @@
 package vertx.bo;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 /**
  * Created by nexis on 11/7/2016.
  */
+@XmlRootElement
 public class Persons implements Serializable {
 
-    private String PhoneNumberId;
+    private String personId;
+    private String name;
     private String address;
     private String status;
 
-    public String getPhoneNumberId() {
-        return PhoneNumberId;
+    public String getName() {
+        return name;
     }
 
-    public void setPhoneNumberId(String phoneNumberId) {
-        PhoneNumberId = phoneNumberId;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(String personId) {
+        this.personId = personId;
     }
 
     public String getAddress() {
@@ -38,7 +49,7 @@ public class Persons implements Serializable {
     @Override
     public String toString() {
         return "Persons{" +
-                "PhoneNumberId='" + PhoneNumberId + '\'' +
+                "personId='" + personId + '\'' +
                 ", address='" + address + '\'' +
                 ", status='" + status + '\'' +
                 '}';

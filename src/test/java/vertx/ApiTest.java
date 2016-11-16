@@ -1,9 +1,11 @@
 package vertx;
 
 import com.jayway.restassured.RestAssured;
+import com.jayway.restassured.internal.mapper.ObjectMapperType;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import vertx.bo.Persons;
 
 import java.util.ArrayList;
 
@@ -18,6 +20,8 @@ public class ApiTest {
     final String baseUri = "http://localhost:8080/";
     String basePath = "/persons";
     ArrayList<String> nameList = new ArrayList<>(3);
+    final Persons p = new Persons();
+
     @BeforeClass
     public void setUpTest(){
         RestAssured.baseURI = baseUri;
@@ -25,6 +29,12 @@ public class ApiTest {
         nameList.add("Dr. Strange");
         nameList.add("Monty Python");
         nameList.add("Iron man");
+
+
+        p.setName("Mr. James Bond");
+        p.setAddress("55 Bond Lane");
+        p.setStatus("unprocessed");
+        p.setPersonId("jBond123");
     }
 
     @Test
@@ -50,21 +60,33 @@ public class ApiTest {
             }
         });
     }
-/*
-    @Test(dependsOnMethods = "getAll" )
+
+    @Test(dependsOnMethods = "getAll" )//
     public void addPerson(){
-        String newPersondId = "newPerson123";
 
-         given().
-                log().all()
+         given()
+                .log().all()
+                 .body(p, ObjectMapperType.JACKSON_2)
          .when().
-                put("/" +newPersondId ).
+                put("/" +p.getPersonId() )
 
-         then().
+         .then().
                 log().all().
                 statusCode(200);
     }
-    */
+
+    @Test(dependsOnMethods = "addPerson")
+    public void verifyAddPerson(){
+        given()
+                .log().all()
+        .when()
+                .get("/" + p.getPersonId()).
+        then()
+                .log().all().
+                statusCode(200);
+
+    }
+
 
 
 }
