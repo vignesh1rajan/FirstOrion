@@ -17,5 +17,16 @@ Running via command line -
      mvn package
      java -jar target/FirstOrion-3.3.3-fat.jar
    
-   
+The API can be access via POSTMAN 
+
+   GET http://localhost:8080/persons/                 - Get a list of persons
+   GET http://localhost:8080/persons/{personID}    -  get a person by id
+   PUT http://localhost:8080/persons/{personID}    - Add new person
+
+     Body-
+    {
+    "name": "New Name",
+    "address": "Volcano",
+    "status": "unprocessed"
+   }
    
