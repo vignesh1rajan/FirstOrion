@@ -14,10 +14,17 @@ Automated API test exists via test\java\vertx\ApiTest directory. Tests can be fr
 
 Running via command line -
   Run the following command to build the jar file - 
+  
      mvn package
+     
      java -jar target/FirstOrion-3.3.3-fat.jar
+     
+  Running the test - on a different command line run 
+  
+  mvn install -DskipTests=false
+  
    
-The API can be access via POSTMAN 
+The API can also be access via POSTMAN 
 
    GET http://localhost:8080/persons/                 - Get a list of persons
    GET http://localhost:8080/persons/{personID}    -  get a person by id
